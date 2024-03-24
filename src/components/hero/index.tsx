@@ -1,4 +1,5 @@
 import working_with_computer from '../../assets/working_with_computer.png';
+import GetStartedButton from '../get-started-button';
 
 export default function Hero() {
   return (
@@ -16,11 +17,7 @@ export default function Hero() {
               Build your brand’s recognition and get detailed insights on how your links are performing.
             </p>
 
-            <div className='flex justify-center xl:justify-start mt-8'>
-              <button className='bg-cyan text-white font-sans text-base xl:text-xl py-2 px-8 rounded-full hover:opacity-80'>
-                Get Started
-              </button>
-            </div>
+            <GetStartedButton/>
           </div>
         </div>
       </div>

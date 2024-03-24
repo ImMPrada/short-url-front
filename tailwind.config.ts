@@ -10,6 +10,9 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      backgroundImage: {
+        'purple-bg': "url('/src/assets/purple_bg.svg')",
+      },
       fontFamily: {
         sans: 'Poppins, sans-serif',
       },
