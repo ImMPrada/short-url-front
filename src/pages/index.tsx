@@ -1,11 +1,15 @@
+import FeatureCards from "../components/feature-cards"
 import Hero from "../components/hero"
 
 export default function Main() {
   return (
     <div>
       <Hero/>
-      <h1>Oli</h1>
-      <p>with TypeScript and Tailwind CSS</p>
+      <FeatureCards/>
+      <div>
+        <h1>Oli</h1>
+        <p>with TypeScript and Tailwind CSS</p>
+      </div>
 
       <div className="flex flex-wrap gap-4">
         <div className="w-[90px] h-[90px] rounded-full bg-cyan"/>
