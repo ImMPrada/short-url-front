@@ -1,10 +1,13 @@
+import { ApplicationProvider } from "./contexts/application-context"
 import Main from "./pages"
 
 
 function App() {
 
   return (
-    <Main/>
+    <ApplicationProvider>
+      <Main/>
+    </ApplicationProvider>
   )
 }
 
