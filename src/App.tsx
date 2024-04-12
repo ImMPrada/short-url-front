@@ -1,13 +1,13 @@
-import { ApplicationProvider } from "./contexts/application-context"
+import { SessionProvider } from "./contexts/session-context"
 import Main from "./pages"
 
 
 function App() {
 
   return (
-    <ApplicationProvider>
+    <SessionProvider>
       <Main/>
-    </ApplicationProvider>
+    </SessionProvider>
   )
 }
 
