@@ -1,10 +1,13 @@
+import { SessionProvider } from "./contexts/session-context"
 import Main from "./pages"
 
 
 function App() {
 
   return (
-    <Main/>
+    <SessionProvider>
+      <Main/>
+    </SessionProvider>
   )
 }
 
