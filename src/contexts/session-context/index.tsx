@@ -3,7 +3,8 @@ import type { SessionContextParams, SessionProviderProps } from './types';
 import useCookie from 'react-use-cookie';
 
 export const SessionContext = createContext<SessionContextParams>({
-  loadingSessionToken: true
+  loadingSessionToken: true,
+  tokenCookie: '0'
 });
 
 export function SessionProvider  ({
@@ -28,9 +29,28 @@ export function SessionProvider  ({
     return data.token
   }
 
+  const fetchUrls = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URI}/api/v1/registered-urls`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${tokenCookie}`
+        }
+      }
+    )
+  
+    const data = await response.json();
+    console.log(data);
+  }
+
   useEffect(() => {
     (async function() {
-      if(tokenCookie !== '0') return;
+      if(tokenCookie !== '0'){
+        await fetchUrls();
+        return;
+      }
   
       const newToken = await getTemporarySessionToken()
   
@@ -48,7 +68,8 @@ export function SessionProvider  ({
   }, [])
 
   const contextVal: SessionContextParams = {
-    loadingSessionToken
+    loadingSessionToken,
+    tokenCookie
   };
 
 
