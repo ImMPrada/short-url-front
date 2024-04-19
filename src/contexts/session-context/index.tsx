@@ -29,28 +29,9 @@ export function SessionProvider  ({
     return data.token
   }
 
-  const fetchUrls = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URI}/api/v1/registered-urls`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${tokenCookie}`
-        }
-      }
-    )
-  
-    const data = await response.json();
-    console.log(data);
-  }
-
   useEffect(() => {
     (async function() {
-      if(tokenCookie !== '0'){
-        await fetchUrls();
-        return;
-      }
+      if(tokenCookie !== '0'){ return; }
   
       const newToken = await getTemporarySessionToken()
   

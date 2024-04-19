@@ -5,7 +5,6 @@ import { UrlsContext } from "../../contexts/urls-context";
 export default function UrlForm() {
   const [urlToSubmit, setUrlToSubmit] = useState<string>('');
   const { submiting, handleSubmit } = useContext(UrlsContext);
-  
 
   return (
     <div className="flex mt-6 xl:mt-10 flex-col relative">
