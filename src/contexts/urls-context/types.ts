@@ -1,8 +1,10 @@
 
 export interface UrlsContextParams {
-  submiting: boolean;
+  isSubmiting: boolean;
+  submtingErrors: string[] | null;
   urlsList: ShortenUrlResponse[];
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>, urlToSubmit: string) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleInputChange: (value: string) => void;
   getAllUrls: () => void;
 }
 

@@ -3,18 +3,22 @@ import type { UrlsContextParams, UrlsProviderProps, ShortenUrlResponse } from '.
 import { SessionContext } from '../session-context';
 
 export const UrlsContext = createContext<UrlsContextParams>({
-  submiting: false,
+  isSubmiting: false,
+  submtingErrors: null,
   urlsList: [],
   handleSubmit: () => {},
+  handleInputChange: () => {},
   getAllUrls: () => {}
 });
 
 export function UrlsProvider  ({
   children
 }: UrlsProviderProps) {
-  const [submiting, setSubmiting] = useState<boolean>(false);
+  const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
   const { tokenCookie } = useContext(SessionContext);
   const [urlsList, setUrlsList] = useState<ShortenUrlResponse[]>([]);
+  const [submtingErrors, setSubmittingErrors] = useState<string[] | null>(null);
+  const [urlToSubmit, setUrlToSubmit] = useState<string>('');
 
   const getAllUrls = async() => {
     const response = await fetch(
@@ -36,9 +40,15 @@ export function UrlsProvider  ({
     setUrlsList(data);
   };
   
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>, urlToSubmit: string) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmiting(true);
+    setIsSubmiting(true);
+
+    if (urlToSubmit === '') {
+      setIsSubmiting(false);
+      setSubmittingErrors(['URL cannot be blank']);
+      return;
+    }
 
     const submitResponse = await fetch(
       `${import.meta.env.VITE_API_URI}/api/v1/registered-urls.json`,
@@ -56,9 +66,14 @@ export function UrlsProvider  ({
       }
     );
 
-    setSubmiting(false);
+    setIsSubmiting(false);
 
     if(!submitResponse.ok){
+      if(submitResponse.status === 422){
+        const data = await submitResponse.json();
+        setSubmittingErrors(data.errors);
+      }
+
       console.error('Error submitting the URL');
       return;
     }
@@ -67,16 +82,24 @@ export function UrlsProvider  ({
 
     const urls = [...urlsList];
     urls.unshift(data.registeredUrl);
-    setSubmiting(false);
+    setUrlsList(urls);
+    setIsSubmiting(false);
   };
+
+  const handleInputChange = (value: string) => {
+    setUrlToSubmit(value);
+    if(submtingErrors) { setSubmittingErrors(null) }
+  }
+
 
   const contextVal: UrlsContextParams = {
-    submiting,
+    isSubmiting,
     urlsList,
     getAllUrls,
-    handleSubmit
+    handleSubmit,
+    handleInputChange,
+    submtingErrors
   };
-
 
   return (
     <UrlsContext.Provider value={contextVal}>

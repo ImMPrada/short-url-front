@@ -23,6 +23,7 @@ const config: Config = {
         'dark-grey': '#34313D',
         'purple-grey': '#3A3054',
         black: '#34313D',
+        red: '#F46363',
       },
       fontSize: {
         sm: '0.9375rem', //15px
