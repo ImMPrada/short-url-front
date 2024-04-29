@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import RingLoader from 'react-spinners/RingLoader';
 
 export default function UrlRedirect() {
   const { urlUri } = useParams();
@@ -19,8 +20,14 @@ export default function UrlRedirect() {
   });
 
   return(
-    <div className="min-h-screen min-w-screen flex items-center justify-center">
-      <span>Redireccionando... {urlUri}</span>
+    <div className="min-h-screen min-w-screen flex flex-col gap-10 items-center justify-center">
+      <span className="font-sans text-xl text-purple-grey">Redireccionando... {urlUri}</span>
+      <RingLoader
+        color={"#3A3054"}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
     </div>
   )
 }
