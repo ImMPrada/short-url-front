@@ -6,8 +6,8 @@ export default function UrlsLsit() {
   const { urlsList, getAllUrls } = useContext(UrlsContext);
 
   useEffect(() => {
-    (async() => getAllUrls())();
-  }, []);
+    getAllUrls()
+  });
 
   if (urlsList.length === 0) {
     return null;
