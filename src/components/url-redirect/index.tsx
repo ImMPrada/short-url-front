@@ -21,7 +21,7 @@ export default function UrlRedirect() {
 
   return(
     <div className="min-h-screen min-w-screen flex flex-col gap-10 items-center justify-center">
-      <span className="font-sans text-xl text-purple-grey">Redireccionando... {urlUri}</span>
+      <span className="font-sans text-xl text-purple-grey">Redirecting... {urlUri}</span>
       <RingLoader
         color={"#3A3054"}
         size={100}
