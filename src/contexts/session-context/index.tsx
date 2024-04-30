@@ -3,7 +3,8 @@ import type { SessionContextParams, SessionProviderProps } from './types';
 import useCookie from 'react-use-cookie';
 
 export const SessionContext = createContext<SessionContextParams>({
-  loadingSessionToken: true
+  loadingSessionToken: true,
+  tokenCookie: '0'
 });
 
 export function SessionProvider  ({
@@ -30,7 +31,7 @@ export function SessionProvider  ({
 
   useEffect(() => {
     (async function() {
-      if(tokenCookie !== '0') return;
+      if(tokenCookie !== '0'){ return; }
   
       const newToken = await getTemporarySessionToken()
   
@@ -48,7 +49,8 @@ export function SessionProvider  ({
   }, [])
 
   const contextVal: SessionContextParams = {
-    loadingSessionToken
+    loadingSessionToken,
+    tokenCookie
   };
 
 
