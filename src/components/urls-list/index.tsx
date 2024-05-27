@@ -7,7 +7,7 @@ export default function UrlsLsit() {
 
   useEffect(() => {
     getAllUrls()
-  });
+  }, []);
 
   if (urlsList.length === 0) {
     return null;
