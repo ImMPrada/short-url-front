@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
 import type { SessionContextParams, SessionProviderProps } from './types';
-import useCookie from 'react-use-cookie';
 
 export const SessionContext = createContext<SessionContextParams>({
   loadingSessionToken: true,
@@ -11,9 +10,9 @@ export function SessionProvider  ({
   children
 }: SessionProviderProps) {
   const [loadingSessionToken, setLoadingSessionToken] = useState<boolean>(true);
-  const [tokenCookie, setTokenCookie] = useCookie('token', '0');
+  const [tokenCookie, setTokenCookie] = useState<string | null>(null);
 
-  const getTemporarySessionToken = async () => {
+  const setTemporarySessionToken = async () => {
     const respose = await fetch(
       `${import.meta.env.VITE_API_URI}/api/v1/temporary-session`,
       {
@@ -25,25 +24,20 @@ export function SessionProvider  ({
       }
     )
   
-    const data = await respose.json();
-    return data.token
+    const data = await respose.json()
+    document.cookie = `temporarySessionCookie=${data.token}; Secure=True; SameSite=Strict`;
+    setTokenCookie(data.token);
   }
 
   useEffect(() => {
+    const existingToken = document.cookie.split('temporarySessionCookie=')[1];
+    if(existingToken){
+      setTokenCookie(existingToken);
+      return;
+    }
+
     (async function() {
-      if(tokenCookie !== '0'){ return; }
-  
-      const newToken = await getTemporarySessionToken()
-  
-      setTokenCookie(
-        newToken,
-        {
-          days: 365,
-          SameSite: 'Strict',
-          Secure: true
-        }
-      );
-  
+      await setTemporarySessionToken();
       setLoadingSessionToken(false);
     }())
   }, [])

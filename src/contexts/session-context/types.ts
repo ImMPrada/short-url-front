@@ -1,7 +1,7 @@
 
 export interface SessionContextParams {
   loadingSessionToken: boolean;
-  tokenCookie: string;
+  tokenCookie: string | null;
 }
 
 export interface SessionProviderProps {

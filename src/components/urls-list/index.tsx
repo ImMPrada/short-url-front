@@ -1,13 +1,17 @@
 import { useContext, useEffect } from "react";
 import { UrlsContext } from "../../contexts/urls-context";
 import Item from "./item";
+import { SessionContext } from "../../contexts/session-context";
 
 export default function UrlsLsit() {
   const { urlsList, getAllUrls } = useContext(UrlsContext);
+  const { tokenCookie } = useContext(SessionContext);
 
   useEffect(() => {
+    if(!tokenCookie){ return; }
+
     getAllUrls()
-  }, []);
+  }, [tokenCookie]);
 
   if (urlsList.length === 0) {
     return null;

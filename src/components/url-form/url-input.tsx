@@ -23,7 +23,7 @@ export default function UrlInput({ onChange, errorsMessages }: UrlInputProps) {
         type="submit"
         className="bg-cyan text-white py-3.5 px-8 rounded-xl font-sans font-bold max-xl:w-full"
       >
-        'Shorten it!'
+        Shorten it!
       </button>
     </>
   );
