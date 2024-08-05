@@ -1,14 +1,18 @@
 
 export interface UrlsContextParams {
+  changeStateSessionExpired?: () => Promise<void>;
+  temporarySessionToken?: string | null;
   isSubmiting: boolean;
   submtingErrors: string[] | null;
   urlsList: ShortenUrlResponse[];
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleInputChange: (value: string) => void;
-  getAllUrls: () => void;
+  fetchAllUrls: (temporarySessionToken: string | null) => void;
 }
 
 export interface UrlsProviderProps {
+  changeStateSessionExpired: () => Promise<void>;
+  temporarySessionToken: string | null;
   children: React.ReactNode;
 }
 
