@@ -1,88 +1,66 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import type { UrlsContextParams, UrlsProviderProps, ShortenUrlResponse } from './types';
-import { SessionContext } from '../session-context';
+import { createUrl, getAllUrls } from '../../api_fetching/urls';
 
 export const UrlsContext = createContext<UrlsContextParams>({
+  changeStateSessionExpired: async() => {},
+  temporarySessionToken: null,
   isSubmiting: false,
   submtingErrors: null,
   urlsList: [],
   handleSubmit: () => {},
   handleInputChange: () => {},
-  getAllUrls: () => {}
+  fetchAllUrls: () => {}
 });
 
 export function UrlsProvider  ({
+  changeStateSessionExpired,
+  temporarySessionToken,
   children
 }: UrlsProviderProps) {
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
-  const { tokenCookie } = useContext(SessionContext);
   const [urlsList, setUrlsList] = useState<ShortenUrlResponse[]>([]);
   const [submtingErrors, setSubmittingErrors] = useState<string[] | null>(null);
   const [urlToSubmit, setUrlToSubmit] = useState<string>('');
 
-  const getAllUrls = async() => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URI}/api/v1/registered-urls.json`,
-      {
-        headers: {
-          'Content-Type': 'applicationn/json',
-          'Authorization': `Token ${tokenCookie}`
-        }
-      }
-    );
+  const fetchAllUrls = async() => {
+    const response = await getAllUrls({ temporarySessionToken });
 
-    if(!response.ok){
-      console.error('Error fetching the URLs');
+    if (response.status === 401) {
+      await changeStateSessionExpired();
       return;
     }
+
+    if(!response.ok){ return; }
 
     const data = await response.json();
     setUrlsList(data);
   };
-  
+
   const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmiting(true);
 
-    if (urlToSubmit === '') {
+    const response = await createUrl({ urlToSubmit, temporarySessionToken });
+
+    const data = await response.json();
+
+    if(!response.ok){
+      if(response.status === 422){ setSubmittingErrors([data.errors]); }
+
+      if(response.status === 401) {
+        await changeStateSessionExpired();
+        setSubmittingErrors([data.errors]);
+      }
+
       setIsSubmiting(false);
-      setSubmittingErrors(['URL cannot be blank']);
       return;
     }
-
-    const submitResponse = await fetch(
-      `${import.meta.env.VITE_API_URI}/api/v1/registered-urls.json`,
-      {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${tokenCookie}`
-      },
-      body: JSON.stringify({
-        registered_url: {
-          url: urlToSubmit
-        }
-      })
-      }
-    );
-
-    setIsSubmiting(false);
-
-    if(!submitResponse.ok){
-      if(submitResponse.status === 422){
-        const data = await submitResponse.json();
-        setSubmittingErrors(data.errors);
-      }
-
-      console.error('Error submitting the URL');
-      return;
-    }
-
-    const data = await submitResponse.json();
 
     const urls = [...urlsList];
     urls.unshift(data.registeredUrl);
     setUrlsList(urls);
+    setUrlToSubmit('');
     setIsSubmiting(false);
   };
 
@@ -91,11 +69,10 @@ export function UrlsProvider  ({
     if(submtingErrors) { setSubmittingErrors(null) }
   }
 
-
   const contextVal: UrlsContextParams = {
     isSubmiting,
     urlsList,
-    getAllUrls,
+    fetchAllUrls,
     handleSubmit,
     handleInputChange,
     submtingErrors
