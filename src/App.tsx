@@ -5,8 +5,17 @@ import Main from "./pages"
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import { useContext, useEffect } from "react";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Main />,
+  }
+]);
+
+const router2 = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
@@ -26,18 +35,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { fetchTemporarySessionToken, temporarySessionToken, isLoadingPage, currentUser } = useContext(SessionContext);
-
-  useEffect(() => {
-    if(temporarySessionToken || currentUser) return;
-
-    fetchTemporarySessionToken();
-  }, []);
-
-  if(isLoadingPage) return(<div>Loading...</div>);
 
   return (
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   )
 }
 

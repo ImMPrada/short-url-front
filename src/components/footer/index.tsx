@@ -11,7 +11,7 @@ export default function Footer() {
     <footer>
       <div className="bg-purple-bg text-white px-4 py-14 flex flex-col items-center">
         <h3 className="font-sans text-light-purple font-bold text-3xl xl:text-5xl">Boost your links today</h3>
-        <GetStartedButton/>
+        {/* <GetStartedButton/> */}
       </div>
 
       <div className="bg-dark-grey py-20">

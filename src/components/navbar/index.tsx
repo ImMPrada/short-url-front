@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { SessionContext } from "../../contexts/session-context";
 
 export default function Navbar() {
-  const { currentUser, handleLogout } = useContext(SessionContext);
+  // const { currentUser, handleLogout } = useContext(SessionContext);
 
   return (
     <nav className="p-4">
