@@ -1,9 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { SessionContext } from "../../contexts/session-context";
+import { useState } from "react";
 import FormInput from "../form-input";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { handleLogin } from "../../redux/thunks/sessionThunks";
 
 export default function LoginForm() {
-  const { handleLogin, sessionErrors, currentUser } = useContext(SessionContext);
+  const dispatch: AppDispatch = useDispatch();
+  const sessionState = useSelector((state: RootState) => state.session);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,16 +14,10 @@ export default function LoginForm() {
   const handleEmailChange = (inputValue: HTMLInputElement) => { setEmail(inputValue.value); };
   const handlePasswordChange = (inputValue: HTMLInputElement) => { setPassword(inputValue.value); };
 
-  useEffect(() => {
-    if(currentUser) {
-      window.location.href = '/';
-    }
-  }, [currentUser]);
-
   return (
     <form
       onSubmit={(e) => {
-        handleLogin({e, email, password});
+        dispatch(handleLogin({e, email, password, temporarySessionToken: sessionState.temporarySessionToken}));
       }}
     >
       <FormInput
@@ -30,7 +27,7 @@ export default function LoginForm() {
         inputName="email"
         value={email}
         handleChange={handleEmailChange}
-        error={sessionErrors?.email}
+        error={(sessionState.errors as any)?.email}
       />
       <FormInput
         label="Password:"
@@ -39,7 +36,7 @@ export default function LoginForm() {
         inputName="password"
         value={password}
         handleChange={handlePasswordChange}
-        error={sessionErrors?.password}
+        error={(sessionState.errors as any)?.password}
       />
 
       <button

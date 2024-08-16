@@ -6,6 +6,10 @@ export const setTemporarySessionCookie = (cookieValue: string) => {
   document.cookie = `temporarySessionCookie=${cookieValue}; Secure=True; SameSite=Strict`;
 }
 
+export const setSessionCookie = () => {
+  document.cookie = `isActiveSession=true; Secure=True; SameSite=Strict`;
+}
+
 export const getTemporarySessionTokenFromCookie = () => {
   const cookie = document.cookie.split(';').find(cookie => cookie.includes('temporarySessionCookie'));
   if(!cookie) return null;

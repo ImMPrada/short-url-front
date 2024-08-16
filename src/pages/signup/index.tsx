@@ -1,15 +1,16 @@
-import { useContext, useEffect } from "react";
-import { SessionContext } from "../../contexts/session-context";
+import { useEffect } from "react";
 import SignupForm from "../../components/signup-form";
+import { RootState } from "../../redux/store";
+import { useSelector } from "react-redux";
 
 export default function Signup() {
-  const { currentUser } = useContext(SessionContext);
+  const sessionState = useSelector((state: RootState) => state.session);
 
   useEffect(() => {
-    if(currentUser) {
+    if(sessionState.currentUser) {
       window.location.href = '/';
     }
-  }, [currentUser]);
+  }, [sessionState.currentUser]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
