@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import { SessionContext } from "../../contexts/session-context";
+import { useState } from "react";
 import FormInput from "../form-input";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,7 +58,7 @@ export default function SignupForm() {
         inputName="confirmPassword"
         value={confirmPassword}
         handleChange={handleConfirmPasswordChange}
-        error={sessionState.errors? sessionState.errors['confirm_password'] : ''}
+        error={'error'}
       />
 
       <button

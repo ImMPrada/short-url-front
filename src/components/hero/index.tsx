@@ -17,7 +17,7 @@ export default function Hero() {
               Build your brand’s recognition and get detailed insights on how your links are performing.
             </p>
 
-            {/* <GetStartedButton/> */}
+            <GetStartedButton/>
           </div>
         </div>
       </div>
