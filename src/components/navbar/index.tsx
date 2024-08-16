@@ -1,9 +1,12 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { SessionContext } from "../../contexts/session-context";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store"
+import { handleLogout } from "../../redux/thunks/sessionThunks";
+
 
 export default function Navbar() {
-  const { currentUser, handleLogout } = useContext(SessionContext);
+  const dispatch: AppDispatch = useDispatch();
+  const sessionState = useSelector((state: RootState) => state.session);
 
   return (
     <nav className="p-4">
@@ -11,19 +14,19 @@ export default function Navbar() {
         <h1 className="font-sans text-5xl text-center font-black xl:tracking-tight text-dark-grey">shorty</h1>
         <div className="flex items-center gap-4">
           {
-            currentUser ? (
+            sessionState.currentUser ? (
               <span
                 className="font-sans text-xl text-center font-black xl:tracking-tight text-dark-grey"
               >
-                {currentUser.username}
+                {sessionState.currentUser.username}
               </span>
             ) : null
           }
           {
-            currentUser ? (
+            sessionState.currentUser ? (
               <button
                 className='bg-cyan text-white font-sans text-base xl:text-xl py-2 px-8 rounded-full hover:opacity-80'
-                onClick={handleLogout}
+                onClick={() => dispatch(handleLogout())}
               >
                 Logout
               </button>

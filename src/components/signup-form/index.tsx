@@ -1,9 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { SessionContext } from "../../contexts/session-context";
+import { useState } from "react";
 import FormInput from "../form-input";
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { handleSignUp } from "../../redux/thunks/sessionThunks";
 
 export default function SignupForm() {
-  const { handleSignup, sessionErrors, currentUser } = useContext(SessionContext);
+  const dispatch: AppDispatch = useDispatch();
+  const sessionState = useSelector((state: RootState) => state.session);
   
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -15,16 +18,10 @@ export default function SignupForm() {
   const handlePasswordChange = (inputValue: HTMLInputElement) => { setPassword(inputValue.value); };
   const handleConfirmPasswordChange = (inputValue: HTMLInputElement) => { setConfirmPassword(inputValue.value); };
 
-  useEffect(() => {
-    if(currentUser) {
-      window.location.href = '/';
-    }
-  }, [currentUser]);
-
   return (
     <form
       onSubmit={(e) => {
-        handleSignup({e, email, password, confirmPassword, username});
+        dispatch(handleSignUp({e, email, password, confirmPassword, username, temporarySessionToken: sessionState.temporarySessionToken}));
       }}
     >
       <FormInput
@@ -34,7 +31,7 @@ export default function SignupForm() {
         inputName="username"
         value={username}
         handleChange={handleUserNameChange}
-        error={sessionErrors?.username}
+        error={(sessionState.errors as any)?.username}
       />
       <FormInput
         label="Email:"
@@ -43,7 +40,7 @@ export default function SignupForm() {
         inputName="email"
         value={email}
         handleChange={handleEmailChange}
-        error={sessionErrors?.email}
+        error={(sessionState.errors as any)?.email}
       />
       <FormInput
         label="Password:"
@@ -52,7 +49,7 @@ export default function SignupForm() {
         inputName="password"
         value={password}
         handleChange={handlePasswordChange}
-        error={sessionErrors?.password}
+        error={(sessionState.errors as any)?.password}
       />
       <FormInput
         label="Confirm Password:"
@@ -61,7 +58,7 @@ export default function SignupForm() {
         inputName="confirmPassword"
         value={confirmPassword}
         handleChange={handleConfirmPasswordChange}
-        error={sessionErrors? sessionErrors['confirm_password'] : ''}
+        error={'error'}
       />
 
       <button
