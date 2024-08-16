@@ -52,7 +52,8 @@ export const callLogin = async (
           email,
           password
         }
-      })
+      }),
+      credentials: 'include',
     },
   )
 
@@ -91,7 +92,7 @@ export const callLogout = async () => {
 
 export const callCurrentUser = async () => {
   const response = await fetch(
-    `${import.meta.env.VITE_API_URI}/api/v1/current_user`,
+    `${import.meta.env.VITE_API_URI}/api/v1/current-user`,
     {
       method: 'GET',
       headers: {

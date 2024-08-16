@@ -16,8 +16,8 @@ export const sessionSlice = createSlice({
     loadingSession: (state) => {
       state.isLoadingSession = true;
     },
-    fetchIsActiveSessionCookie: (state, action) => {
-      state.isActiveSessionCookie = action.payload.isActiveSessionCookie;
+    fetchIsActiveSessionCookie: (state) => {
+      state.isActiveSessionCookie = true;
     },
     fetchTemporarySession: (state, action) => {
       state.isLoadingSession = false;

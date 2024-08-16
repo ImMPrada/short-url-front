@@ -10,10 +10,8 @@ export default function Router() {
   const sessionState = useSelector((state: RootState) => state.session);
 
   useEffect(() => {
-    dispatch(getSession());
+    dispatch(getSession(sessionState));
   }, []);
-
-  if(sessionState.isLoadingSession) return(<div>Loading...</div>);
 
   return (
     <RouterProvider router={routes} />

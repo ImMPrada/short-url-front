@@ -16,15 +16,16 @@ import {
   setTemporarySessionCookie
 } from "../../cookies_fetching/session";
 import { HandleLoginParams, HandleSignupParams } from "./types";
+import { SessionState } from "../slices/types";
 
-export const getSession = (): AppThunk => async (dispatch) => {
+export const getSession = (sessionState?: SessionState): AppThunk => async (dispatch) => {
+  console.log('getSession');
   dispatch(loadingSession());
 
   const isActiveSession = getIsActiveSession();
   if (isActiveSession) {
-    dispatch(fetchIsActiveSessionCookie({ isActiveSessionCookie: true }));
-    dispatch(getCurrentUser());
-
+    dispatch(fetchIsActiveSessionCookie());
+    if(!sessionState?.currentUser) dispatch(getCurrentUser());
     return;
   }
 
@@ -116,14 +117,12 @@ export const handleLogin = ({e, email, password, temporarySessionToken}: HandleL
 
     const data = await response.json();
 
-    console.log(data);
-
     if(!response.ok){
       dispatch(failedSession({ errors: data.errors }));
       return;
     }
 
-    document.cookie = `isActiveSession=true; Secure=True; SameSite=Strict`;
+    setSessionCookie();
     removeCookie('temporarySessionCookie');
     dispatch(fetchUsserSession({ currentUser: data.user }));
 }
