@@ -1,11 +1,12 @@
-import { callCurrentUser, callLogin, callSignup, callTemporarySessionToken } from "../../api_fetching/session";
+import { callCurrentUser, callLogin, callLogout, callSignup, callTemporarySessionToken } from "../../api_fetching/session";
 import { AppThunk } from "../store";
 import {
   loadingSession,
   fetchTemporarySession,
   fetchUsserSession,
   failedSession,
-  fetchIsActiveSessionCookie
+  fetchIsActiveSessionCookie,
+  rebootState
 } from "../slices/sessionSlice";
 import {
   getIsActiveSession,
@@ -127,4 +128,13 @@ export const handleLogin = ({e, email, password, temporarySessionToken}: HandleL
     dispatch(fetchUsserSession({ currentUser: data.user }));
 }
 
+export const handleLogout = (): AppThunk => async (dispatch) => {
+  dispatch(loadingSession());
+
+  await callLogout();
+
+  removeCookie('isActiveSession');
+  dispatch(rebootState());
+  dispatch(getSession());
+}
 

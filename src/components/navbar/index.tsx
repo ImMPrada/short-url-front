@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store"
+import { handleLogout } from "../../redux/thunks/sessionThunks";
 
 
 export default function Navbar() {
-  // const { currentUser, handleLogout } = useContext(SessionContext);
   const dispatch: AppDispatch = useDispatch();
   const sessionState = useSelector((state: RootState) => state.session);
 
@@ -26,7 +26,7 @@ export default function Navbar() {
             sessionState.currentUser ? (
               <button
                 className='bg-cyan text-white font-sans text-base xl:text-xl py-2 px-8 rounded-full hover:opacity-80'
-                // onClick={() => dispatch(handleLogout())}
+                onClick={() => dispatch(handleLogout())}
               >
                 Logout
               </button>

@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { SessionState } from "./types";
+
+const initialState: SessionState = {
+  isLoadingSession: true,
+  temporarySessionToken: null,
+  currentUser: null,
+  isActiveSessionCookie: false,
+  errors: null
+};
 
 export const sessionSlice = createSlice({
   name: "session",
-  initialState: {
-    isLoadingSession: true,
-    temporarySessionToken: null,
-    currentUser: null,
-    isActiveSessionCookie: false,
-    errors: null
-  },
+  initialState,
   reducers: {
     loadingSession: (state) => {
       state.isLoadingSession = true;
@@ -29,6 +32,13 @@ export const sessionSlice = createSlice({
     failedSession: (state, action) => {
       state.isLoadingSession = false;
       state.errors = action.payload.errors;
+    },
+    rebootState: (state) => {
+      state.isLoadingSession = true;
+      state.temporarySessionToken = null;
+      state.currentUser = null;
+      state.isActiveSessionCookie = false;
+      state.errors = null;
     }
   },
 });
@@ -38,5 +48,6 @@ export const {
   fetchIsActiveSessionCookie,
   fetchTemporarySession,
   fetchUsserSession,
-  failedSession
+  failedSession,
+  rebootState
 } = sessionSlice.actions;
