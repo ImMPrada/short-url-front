@@ -1,15 +1,13 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UrlsContext } from "../../contexts/urls-context";
 import Item from "./item";
-import { SessionContext } from "../../contexts/session-context";
 
 export default function UrlsLsit() {
-  const { urlsList, fetchAllUrls } = useContext(UrlsContext);
-  const { temporarySessionToken } = useContext(SessionContext);
+  const { urlsList } = useContext(UrlsContext);
 
-  useEffect(() => {
-    fetchAllUrls(temporarySessionToken)
-  }, []);
+  // useEffect(() => {
+  //   fetchAllUrls(temporarySessionToken)
+  // }, []);
 
   if (urlsList.length === 0) { return null; }
 
