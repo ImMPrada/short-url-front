@@ -1,7 +1,11 @@
+import { useSelector } from 'react-redux';
 import working_with_computer from '../../assets/working_with_computer.png';
+import { RootState } from '../../redux/store';
 import GetStartedButton from '../get-started-button';
 
 export default function Hero() {
+  const sessionState = useSelector((state: RootState) => state.session);
+
   return (
     <div className='flex flex-col xl:flex-row xl:justify-end xl:relative'>
       <img className='ml-6 xl:m-0' src={working_with_computer} alt="working with computer"/>
@@ -17,7 +21,7 @@ export default function Hero() {
               Build your brand’s recognition and get detailed insights on how your links are performing.
             </p>
 
-            <GetStartedButton/>
+            { !sessionState.currentUser && (<GetStartedButton/>) }
           </div>
         </div>
       </div>

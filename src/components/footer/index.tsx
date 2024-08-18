@@ -5,14 +5,22 @@ import twitter from '../../assets/twitter.svg';
 import pinterest from '../../assets/pinterest.svg';
 import instagram from '../../assets/instagram.svg';
 import IconLink from "./icon-link";
+import { RootState } from "../../redux/store";
+import { useSelector } from "react-redux";
 
 export default function Footer() {
+  const sessionState = useSelector((state: RootState) => state.session);
+
   return (
     <footer>
-      <div className="bg-purple-bg text-white px-4 py-14 flex flex-col items-center">
-        <h3 className="font-sans text-light-purple font-bold text-3xl xl:text-5xl">Boost your links today</h3>
-        <GetStartedButton/>
-      </div>
+      {
+        !sessionState.currentUser && (
+          <div className="bg-purple-bg text-white px-4 py-14 flex flex-col items-center">
+            <h3 className="font-sans text-light-purple font-bold text-3xl xl:text-5xl">Boost your links today</h3>
+            <GetStartedButton/>
+          </div>
+        )
+      }
 
       <div className="bg-dark-grey py-20">
         <div className="max-xl:w-full xl:max-w-[1110px] flex max-xl:flex-col xl:justify-between max-xl:gap-12 max-xl:align-middle max-xl:items-center mx-auto">
