@@ -3,6 +3,12 @@ type User = {
   username: string;
 };
 
+type Url = {
+  shortVersion: string;
+  url: string;
+  expiresAt: Date;
+}
+
 export type UserLoginErrors = {
   email?: string;
   password?: string;
@@ -19,4 +25,11 @@ export interface SessionState {
   currentUser: User | null;
   isActiveSessionCookie: boolean;
   errors: UserSignupErrors | UserLoginErrors | null;
+}
+
+export interface UrlsState {
+  isLoadingUrls: boolean,
+  isAddingNewUrl: boolean
+  sessionUrls: Url[],
+  errors: any
 }
