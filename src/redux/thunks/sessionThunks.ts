@@ -38,8 +38,6 @@ export const getSession = (sessionState?: SessionState): AppThunk => async (disp
 }
 
 const getSessionToken = (): AppThunk => async (dispatch) => {
-  dispatch(loadingSession());
-
   const isActiveSession = getIsActiveSession();
   if (isActiveSession) {
     dispatch(fetchUsserSession({ currentUser: null })); // será mejor ejecutar una acción que obtenga el usuario actual?
@@ -65,8 +63,6 @@ const getSessionToken = (): AppThunk => async (dispatch) => {
 };
 
 const getCurrentUser = (): AppThunk => async (dispatch) => {
-  dispatch(loadingSession());
-
   const response = await callCurrentUser();
 
   if (!response.ok) {
@@ -113,10 +109,12 @@ export const handleLogin = ({e, email, password, temporarySessionToken}: HandleL
     });
 
     if(response.status === 401){
-      dispatch(failedSession({ errors: {
-        email: 'Or password is invalid',
-        password: 'Or email is invalid'
-      } }));
+      dispatch(failedSession({
+        errors: {
+          email: 'Or password is invalid',
+          password: 'Or email is invalid'
+        }
+      }));
       return;
     }
 
@@ -141,4 +139,3 @@ export const handleLogout = (): AppThunk => async (dispatch) => {
   dispatch(rebootState());
   dispatch(getSession());
 }
-

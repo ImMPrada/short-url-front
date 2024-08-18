@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { handleSignUp } from "../../redux/thunks/sessionThunks";
 import { Link } from "react-router-dom";
+import { UserSignupErrors } from "../../redux/slices/types";
 
 export default function SignupForm() {
   const dispatch: AppDispatch = useDispatch();
@@ -32,7 +33,7 @@ export default function SignupForm() {
         inputName="username"
         value={username}
         handleChange={handleUserNameChange}
-        error={(sessionState.errors as any)?.username}
+        error={(sessionState.errors as UserSignupErrors)?.username}
       />
       <FormInput
         label="Email:"
@@ -41,7 +42,7 @@ export default function SignupForm() {
         inputName="email"
         value={email}
         handleChange={handleEmailChange}
-        error={(sessionState.errors as any)?.email}
+        error={(sessionState.errors as UserSignupErrors)?.email}
       />
       <FormInput
         label="Password:"
@@ -50,7 +51,7 @@ export default function SignupForm() {
         inputName="password"
         value={password}
         handleChange={handlePasswordChange}
-        error={(sessionState.errors as any)?.password}
+        error={(sessionState.errors as UserSignupErrors)?.password}
       />
       <FormInput
         label="Confirm Password:"
@@ -59,7 +60,7 @@ export default function SignupForm() {
         inputName="confirmPassword"
         value={confirmPassword}
         handleChange={handleConfirmPasswordChange}
-        error={(sessionState.errors as any)?.confirm_password}
+        error={(sessionState.errors as UserSignupErrors)?.confirm_password}
       />
 
       <div className="w-full flex flex-col gap-2">

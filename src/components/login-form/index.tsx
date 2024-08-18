@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { handleLogin } from "../../redux/thunks/sessionThunks";
 import { Link } from "react-router-dom";
+import { UserLoginErrors } from "../../redux/slices/types";
 
 export default function LoginForm() {
   const dispatch: AppDispatch = useDispatch();
@@ -28,7 +29,7 @@ export default function LoginForm() {
         inputName="email"
         value={email}
         handleChange={handleEmailChange}
-        error={(sessionState.errors as any)?.email}
+        error={(sessionState.errors as UserLoginErrors)?.email}
       />
       <FormInput
         label="Password:"
@@ -37,7 +38,7 @@ export default function LoginForm() {
         inputName="password"
         value={password}
         handleChange={handlePasswordChange}
-        error={(sessionState.errors as any)?.password}
+        error={(sessionState.errors as UserLoginErrors)?.password}
       />
 
       <div className="w-full flex flex-col gap-2">

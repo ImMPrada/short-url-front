@@ -14,7 +14,6 @@ import { useSelector } from "react-redux"
 export default function Main() {
   // const dispatch: AppDispatch = useDispatch();
   const sessionState = useSelector((state: RootState) => state.session);
-  if(sessionState.isLoadingSession) return(<div>Loading...</div>);
 
   return (
     <div>
