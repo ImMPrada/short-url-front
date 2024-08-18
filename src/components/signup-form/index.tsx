@@ -59,7 +59,7 @@ export default function SignupForm() {
         inputName="confirmPassword"
         value={confirmPassword}
         handleChange={handleConfirmPasswordChange}
-        error={'error'}
+        error={(sessionState.errors as any)?.confirm_password}
       />
 
       <div className="w-full flex flex-col gap-2">

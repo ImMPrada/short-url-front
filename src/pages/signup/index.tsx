@@ -2,11 +2,18 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SignupForm from "../../components/signup-form";
 import { RootState } from "../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrors } from "../../redux/slices/sessionSlice";
 
 export default function Signup() {
   const sessionState = useSelector((state: RootState) => state.session);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (sessionState.currentUser) return;
+    dispatch(clearErrors());
+  }, []);
 
   useEffect(() => {
     if (sessionState.currentUser) {

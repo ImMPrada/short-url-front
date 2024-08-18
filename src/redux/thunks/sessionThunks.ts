@@ -115,6 +115,14 @@ export const handleLogin = ({e, email, password, temporarySessionToken}: HandleL
       temporarySessionToken
     });
 
+    if(response.status === 401){
+      dispatch(failedSession({ errors: {
+        email: 'Or password is invalid',
+        password: 'Or email is invalid'
+      } }));
+      return;
+    }
+
     const data = await response.json();
 
     if(!response.ok){

@@ -39,6 +39,9 @@ export const sessionSlice = createSlice({
       state.currentUser = null;
       state.isActiveSessionCookie = false;
       state.errors = null;
+    },
+    clearErrors: (state) => {
+      state.errors = null;
     }
   },
 });
@@ -49,5 +52,6 @@ export const {
   fetchTemporarySession,
   fetchUsserSession,
   failedSession,
-  rebootState
+  rebootState,
+  clearErrors
 } = sessionSlice.actions;
