@@ -36,7 +36,7 @@ export default function Item({ url, shortenVersion, expiresAt, visitsCount = 0}:
 
           <div className="flex gap-4">
             <span className="text-grey block font-sans ftext-lg">Visitas: {visitsCount}</span>
-            <span className="text-grey block font-sans ftext-lg">Expira: {expiresAt}</span>
+            <span className="text-grey block font-sans ftext-lg">{`Expira: ${expiresAt}`}</span>
           </div>
         </div>
 

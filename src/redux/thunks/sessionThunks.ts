@@ -6,8 +6,9 @@ import {
   fetchUsserSession,
   failedSession,
   fetchIsActiveSessionCookie,
-  rebootState
+  rebootState as rebootSessionState
 } from "../slices/sessionSlice";
+import { rebootState as rebootUrlsState } from "../slices/urlsSlice";
 import {
   getIsActiveSession,
   getTemporarySessionTokenFromCookie,
@@ -17,6 +18,7 @@ import {
 } from "../../cookies_fetching/session";
 import { HandleLoginParams, HandleSignupParams } from "./types";
 import { SessionState } from "../slices/types";
+import { getUrls } from "./registeredUrlsThunks";
 
 export const getSession = (sessionState?: SessionState): AppThunk => async (dispatch) => {
   dispatch(loadingSession());
@@ -96,6 +98,7 @@ export const handleSignUp = ({e, email, password, confirmPassword, username, tem
   setSessionCookie();
   removeCookie('temporarySessionCookie');
   dispatch(fetchUsserSession({ currentUser: data.user }));
+  dispatch(getUrls(null));
 };
 
 export const handleLogin = ({e, email, password, temporarySessionToken}: HandleLoginParams): AppThunk => async (dispatch) => {
@@ -128,6 +131,7 @@ export const handleLogin = ({e, email, password, temporarySessionToken}: HandleL
     setSessionCookie();
     removeCookie('temporarySessionCookie');
     dispatch(fetchUsserSession({ currentUser: data.user }));
+    dispatch(getUrls(null));
 }
 
 export const handleLogout = (): AppThunk => async (dispatch) => {
@@ -136,6 +140,7 @@ export const handleLogout = (): AppThunk => async (dispatch) => {
   await callLogout();
 
   removeCookie('isActiveSession');
-  dispatch(rebootState());
+  dispatch(rebootSessionState());
+  dispatch(rebootUrlsState());
   dispatch(getSession());
 }
