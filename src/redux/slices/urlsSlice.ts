@@ -32,7 +32,7 @@ export const urlsSlice = createSlice({
       state.isAddingNewUrl = false
     },
     rebootState: (state) => {
-      state.isLoadingUrls = true,
+      state.isLoadingUrls = false,
       state.isAddingNewUrl = false,
       state.sessionUrls = [],
       state.errors = null

@@ -1,4 +1,3 @@
-// import { useContext, useEffect } from "react"
 import { useEffect } from "react"
 import FeatureCards from "../components/feature-cards"
 import Footer from "../components/footer"

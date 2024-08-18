@@ -1,7 +1,7 @@
 import { UrlInputProps } from "./types";
 
 export default function UrlInput({ onChange, errorsMessages }: UrlInputProps) {
-  const buildErrorsMessages = errorsMessages ? errorsMessages.join(', ') : null;
+  const buildErrorsMessages = errorsMessages ? errorsMessages : null;
 
   return (
     <>

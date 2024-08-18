@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import UrlInput from "./url-input";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -24,6 +24,10 @@ export default function UrlForm() {
     }));
     setUrlToSubmit('');
   }
+
+  useEffect(() => {
+    console.log({'errors': urlsState.errors});
+  }, [urlsState.errors]);
 
   return (
     <div className="flex mt-6 xl:mt-10 flex-col relative">
