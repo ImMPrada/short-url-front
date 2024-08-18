@@ -9,3 +9,9 @@ export type HandleSignupParams = HandleLoginParams & {
   confirmPassword: string;
   username: string;
 }
+
+export type HandleUrlCreationParams = {
+  e: React.FormEvent<HTMLFormElement>;
+  newUrl: string;
+  temporarySessionToken: string | null;
+}

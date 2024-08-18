@@ -16,7 +16,12 @@ export const urlsSlice = createSlice({
       state.isLoadingUrls = false,
       state.isAddingNewUrl = true
     },
-    fetchUrls: (state, action) => {
+    fetchAllUrls: (state, action) => {
+      state.sessionUrls = action.payload.urls,
+      state.isAddingNewUrl = false,
+      state.isLoadingUrls = false
+    },
+    fetchUrl: (state, action) => {
       state.sessionUrls = [action.payload.newUrl, ...state.sessionUrls],
       state.isAddingNewUrl = false,
       state.isLoadingUrls = false
@@ -25,12 +30,20 @@ export const urlsSlice = createSlice({
       state.errors = action.payload.errors,
       state.isLoadingUrls = false,
       state.isAddingNewUrl = false
+    },
+    rebootState: (state) => {
+      state.isLoadingUrls = true,
+      state.isAddingNewUrl = false,
+      state.sessionUrls = [],
+      state.errors = null
     }
   },
 });
 
 export const {
   activateAddingNewUrl,
-  fetchUrls,
-  fetchErrors
+  fetchAllUrls,
+  fetchUrl,
+  fetchErrors,
+  rebootState
 } = urlsSlice.actions;

@@ -1,6 +1,6 @@
 export interface ItemProps {
   url: string
   shortenVersion: string
-  expiresAt: string
+  expiresAt: Date
   visitsCount? : number
 }
