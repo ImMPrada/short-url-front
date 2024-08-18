@@ -1,16 +1,19 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import SignupForm from "../../components/signup-form";
 import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
 
 export default function Signup() {
   const sessionState = useSelector((state: RootState) => state.session);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(sessionState.currentUser) {
-      window.location.href = '/';
-    }
+    if (sessionState.currentUser) {
+      navigate("/");
+      }
   }, [sessionState.currentUser]);
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

@@ -1,15 +1,17 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginForm from "../../components/login-form";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 export default function Login() {
   const sessionState = useSelector((state: RootState) => state.session);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(sessionState.currentUser) {
-      window.location.href = '/';
-    }
+    if (sessionState.currentUser) {
+      navigate("/");
+      }
   }, [sessionState.currentUser]);
 
   return (
