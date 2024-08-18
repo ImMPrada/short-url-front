@@ -19,7 +19,6 @@ import { HandleLoginParams, HandleSignupParams } from "./types";
 import { SessionState } from "../slices/types";
 
 export const getSession = (sessionState?: SessionState): AppThunk => async (dispatch) => {
-  console.log('getSession');
   dispatch(loadingSession());
 
   const isActiveSession = getIsActiveSession();
@@ -60,8 +59,6 @@ const getSessionToken = (): AppThunk => async (dispatch) => {
     dispatch(failedSession({ errors: data.errors }));
     return;
   }
-
-  console.log(data)
 
   setTemporarySessionCookie(data.token);
   dispatch(fetchTemporarySession({ temporarySessionToken: data.token }));
