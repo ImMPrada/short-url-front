@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import UrlRedirect from "../components/url-redirect";
 import Main from "../pages"
 import Login from "../pages/login";
 import Signup from "../pages/signup";
