@@ -20,14 +20,13 @@ export default function Main() {
   }, [])
 
   return (
-    <div>
-      {sessionState.temporarySessionToken}
+    <>
       <Navbar/>
       <Hero/>
       <UrlForm/>
       <UrlsLsit/>
       <FeatureCards/>
       <Footer/>
-    </div>
+    </>
   )
 }
