@@ -6,18 +6,19 @@ export default function UrlRedirect() {
   const { urlUri } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URI}/api/v1/registered-urls/${urlUri}`,);
-      const data = await response.json();
+  // useEffect(() => {
+  //   console.log('urlUri', urlUri);
+  //   (async () => {
+  //     const response = await fetch(`${import.meta.env.VITE_API_URI}/api/v1/registered-urls/${urlUri}`,);
+  //     const data = await response.json();
 
-      if(response.ok) {
-        return window.location.href = data.url;
-      }
+  //     if(response.ok) {
+  //       return window.location.href = data.url;
+  //     }
 
-      navigate('/');
-    })()
-  }, []);
+  //     navigate('/');
+  //   })()
+  // }, []);
 
   return(
     <div className="min-h-screen min-w-screen flex flex-col gap-10 items-center justify-center">
