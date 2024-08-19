@@ -1,24 +1,25 @@
 import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import RingLoader from 'react-spinners/RingLoader';
+import { UrlRedirectProps } from './types';
 
-export default function UrlRedirect() {
-  const { urlUri } = useParams();
+export default function UrlRedirect({ urlUri }: UrlRedirectProps) {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   console.log('urlUri', urlUri);
-  //   (async () => {
-  //     const response = await fetch(`${import.meta.env.VITE_API_URI}/api/v1/registered-urls/${urlUri}`,);
-  //     const data = await response.json();
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_URI}/api/v1/registered-urls/${urlUri}`,);
+      const data = await response.json();
 
-  //     if(response.ok) {
-  //       return window.location.href = data.url;
-  //     }
+      if(response.ok) {
+        window.history.replaceState(null, '', '/');
+        window.location.href = data.url;
+        return;
+      }
 
-  //     navigate('/');
-  //   })()
-  // }, []);
+      navigate('/');
+    })()
+  }, []);
 
   return(
     <div className="min-h-screen min-w-screen flex flex-col gap-10 items-center justify-center">

@@ -8,10 +8,12 @@ export const routes = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-  },
-  {
-    path: "/:urlUri",
-    element: <UrlRedirect />,
+    children: [
+      {
+        path: ":urlUri",
+        element: <Main />,
+      },
+    ],
   },
   {
     path: "/login",
@@ -22,19 +24,3 @@ export const routes = createBrowserRouter([
     element: <Signup />,
   }
 ]);
-
-
-// createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Root />,
-//     loader: rootLoader,
-//     children: [
-//       {
-//         path: "events/:id",
-//         element: <Event />,
-//         loader: eventLoader,
-//       },
-//     ],
-//   },
-// ]);

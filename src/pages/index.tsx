@@ -8,8 +8,11 @@ import UrlsLsit from "../components/urls-list"
 import { AppDispatch, RootState } from "../redux/store"
 import { useDispatch, useSelector } from "react-redux"
 import { getUrls } from "../redux/thunks/registeredUrlsThunks"
+import { useParams } from "react-router-dom"
+import UrlRedirect from "../components/url-redirect"
 
 export default function Main() {
+  const { urlUri } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const sessionState = useSelector((state: RootState) => state.session);
   const urlsState = useSelector((state: RootState) => state.urls)
@@ -18,6 +21,14 @@ export default function Main() {
     if (urlsState.sessionUrls.length > 0) return;
     dispatch(getUrls(sessionState.temporarySessionToken))
   }, [])
+
+  if(urlUri) {
+    return (
+      <UrlRedirect
+        urlUri={urlUri}
+      />
+    )
+  }
 
   return (
     <>

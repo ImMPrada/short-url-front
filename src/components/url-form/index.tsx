@@ -25,10 +25,6 @@ export default function UrlForm() {
     setUrlToSubmit('');
   }
 
-  useEffect(() => {
-    console.log({'errors': urlsState.errors});
-  }, [urlsState.errors]);
-
   return (
     <div className="flex mt-6 xl:mt-10 flex-col relative">
       <div className="bg-white w-full h-20"></div>
