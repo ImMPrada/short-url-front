@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import UrlInput from "./url-input";
 import { AppDispatch, RootState } from "../../redux/store";
