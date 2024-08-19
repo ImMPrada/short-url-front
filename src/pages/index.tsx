@@ -18,6 +18,7 @@ export default function Main() {
   const urlsState = useSelector((state: RootState) => state.urls)
 
   useEffect(() => {
+    if (urlUri) return;
     if (urlsState.sessionUrls.length > 0) return;
     dispatch(getUrls(sessionState.temporarySessionToken))
   }, [])
